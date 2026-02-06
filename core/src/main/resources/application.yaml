@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: Websites Watcher
+    version: @revision@
+  mvc:
+    problemdetails:
+      enabled: true
+
+server:
+  servlet:
+    encoding:
+      force: true

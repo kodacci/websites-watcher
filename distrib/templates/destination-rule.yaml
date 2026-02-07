@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: websites-watcher-core-destination
+  namespace: {{ namespace }}
+  labels:
+    app.kubernetes.io/part-of: websites-watcher
+    app.kubernetes.io/component: core
+spec:
+  host: websites-watcher-core-service.{{ namespace }}.svc.cluster.local
+  exportTo:
+    - "."
+  workloadSelector:
+    matchLabels:
+      app: websites-watcher-core

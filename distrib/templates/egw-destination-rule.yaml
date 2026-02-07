@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: egw-destination
+  namespace: {{ namespace }}
+  labels:
+    app.kubenetes.io/name: egw-destination
+    app.kubernetes.io/part-of: websites-watcher
+    app.kubernetes.io/component: core
+spec:
+  host: websites-watcher-egressgw.{{ namespace }}.svc.cluster.local
+  subsets:
+    - name: vault
+    - name: telegram-bot
+    - name: elasticsearch
+    - name: ru-web
+  exportTo:
+    - "."

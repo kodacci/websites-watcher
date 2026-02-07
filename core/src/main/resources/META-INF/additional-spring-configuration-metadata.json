@@ -3,7 +3,24 @@
     {
       "name": "app.watchers.ru-web",
       "description": "Ru-web vps plan watcher",
-      "sourceType": "pro.ra_tech.website-watchers.core.config"
+      "sourceType": "pro.ra_tech.websites_watcher.core.config.RuWebWatcherProps"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.watchers.ru-web.cron",
+      "type": "java.lang.String",
+      "description": "Cron schedule for ru-web watcher"
+    },
+    {
+      "name": "app.watchers.ru-web.url",
+      "type": "java.lang.String",
+      "description": "ru-web website URL"
+    },
+    {
+      "name": "app.watchers.ru-web.plan-name",
+      "type": "java.lang.String",
+      "description": "ru-web desired plan to wait for to be available"
     }
   ]
 }

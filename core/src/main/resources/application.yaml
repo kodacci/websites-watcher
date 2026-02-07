@@ -10,3 +10,10 @@ server:
   servlet:
     encoding:
       force: true
+
+app:
+  watchers:
+    ru-web:
+      cron: "0 0/1 * * * *"
+      url: https://ruweb.net/vps-europe/netherlands
+      plan-name: KVMe-NANO

@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <name>websites-watcher</name>
-    <description>Websites watcher that execute actions on changes like notifications, etc</description>
+    <description>Websites watcher that execute actions on predicate rules like notifications, etc</description>
 
     <modules>
         <module>core</module>
@@ -50,20 +50,22 @@
         <jspecify.version>1.0.0</jspecify.version>
         <jackson.version>3.0.4</jackson.version>
         <logstash.logback.version>9.0</logstash.logback.version>
+        <selenium.version>4.40.0</selenium.version>
 
         <!--    Project vars    -->
         <skipTests>false</skipTests>
+        <coverage.agent> </coverage.agent>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
             <dependency>
-                <groupId>tools.jackson</groupId>
-                <artifactId>jackson-bom</artifactId>
-                <version>${jackson.version}</version>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-bom</artifactId>
+                <version>${selenium-htmlunit.version}</version>
                 <scope>import</scope>
-                <type>pom</type>
+                <type>bom</type>
             </dependency>
 
             <dependency>
@@ -83,6 +85,13 @@
             </dependency>
 
             <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.logback.version}</version>
+            </dependency>
+
+            <!--      Spring      -->
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring.boot.version}</version>
@@ -90,14 +99,8 @@
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-jackson</artifactId>
+                <artifactId>spring-boot-starter-validation</artifactId>
                 <version>${spring.boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>net.logstash.logback</groupId>
-                <artifactId>logstash-logback-encoder</artifactId>
-                <version>${logstash.logback.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

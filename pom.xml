@@ -57,6 +57,17 @@
         <coverage.agent> </coverage.agent>
     </properties>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>https://nexus.ra-tech.pro/repository/maven-snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus</id>
+            <url>https://nexus.ra-tech.pro/repository/maven-releases</url>
+        </repository>
+    </distributionManagement>
+
     <dependencyManagement>
         <dependencies>
 

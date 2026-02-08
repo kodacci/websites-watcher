@@ -221,7 +221,7 @@ pipeline {
                                 '-f distrib/egress-gateway.yaml ' +
                                 '-f distrib/virtual-service.yaml ' +
                                 '-f distrib/destination-rule.yaml ' +
-                                '-f distrib/egw-destination-rule.yaml '
+                                '-f distrib/egw-destination-rule.yaml ' +
                                 vaultApply +
                                 telegramApply +
                                 elasticsearchApply +

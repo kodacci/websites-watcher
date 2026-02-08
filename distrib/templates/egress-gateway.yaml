@@ -18,4 +18,4 @@ spec:
         - {{ vault.host }}
         - {{ telegram.api.host }}
         - {{ elasticsearch.host }}
-        - {{ ru-web.host }}
+        - {{ ruweb.host }}

@@ -13,6 +13,6 @@ spec:
     - name: vault
     - name: telegram-bot
     - name: elasticsearch
-    - name: ru-web
+    - name: ruweb
   exportTo:
     - "."

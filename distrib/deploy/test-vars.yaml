@@ -58,5 +58,5 @@ telegram:
 elasticsearch:
   host: elasticsearch.ra-tech.pro
   index: websites-watcher-test-logs
-ru-web:
+ruweb:
   host: ruweb.net

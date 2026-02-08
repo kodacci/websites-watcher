@@ -1,0 +1,10 @@
+logging:
+  level:
+    root: ${ROOT_LOG_LEVEL}
+
+app:
+  watchers:
+    ru-web:
+      cron: ${RU_WEB_CRON}
+      url: ${RU_WEB_URL}
+      plan-name: ${RU_WEB_PLAN_NAME}

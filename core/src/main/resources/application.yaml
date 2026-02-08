@@ -1,4 +1,36 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - health
+          - info
+          - metrics
+  endpoint:
+    health:
+      access: unrestricted
+      show-details: always
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include:
+            - livenessState
+        readiness:
+          include:
+            - readinessState
+    prometheus:
+      access: unrestricted
+      metrics:
+        export:
+          enabled: true
+  server:
+    port: 8081
+
 spring:
+#  main:
+#    web-application-type: none
   application:
     name: Websites Watcher
     version: @revision@
@@ -7,13 +39,7 @@ spring:
       enabled: true
 
 server:
+  port: 8080
   servlet:
     encoding:
       force: true
-
-app:
-  watchers:
-    ru-web:
-      cron: "0 0/1 * * * *"
-      url: https://ruweb.net/vps-europe/netherlands
-      plan-name: KVMe-NANO

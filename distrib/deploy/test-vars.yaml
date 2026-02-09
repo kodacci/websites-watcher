@@ -61,4 +61,4 @@ elasticsearch:
 ruweb:
   host: ruweb.net
 chrome_selenium:
-  host: chrome-selenium.ra-tech.pro
+  host: chrome.selenium.ra-tech.pro

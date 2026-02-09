@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.scheduling.annotation.Scheduled;
 import pro.ra_tech.websites_watcher.core.schedule.api.WebSiteWatcher;
+import pro.ra_tech.websites_watcher.core.webdriver.api.WebdriverManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,19 +18,22 @@ import java.util.concurrent.TimeUnit;
 public class RuWebVpsWatcher implements WebSiteWatcher {
     private final String baseUrl;
     private final String planName;
+    private final WebdriverManager webdriverManager;
 
     @Override
     @Scheduled(initialDelay = 3, fixedDelay = Integer.MAX_VALUE, timeUnit = TimeUnit.SECONDS)
     public void check() {
-            log.info("Checking RuWeb VPS {} in Netherlands", planName);
-
-            val options =  new ChromeOptions();
-            options.addArguments("--headless=new", "--window-size=1920,1080");
-            val driver = new ChromeDriver(options);
+        WebDriver driver = null;
 
         try {
+            log.info("Checking RuWeb VPS {} in Netherlands", planName);
+
+            driver = webdriverManager.buildHeadlessChromeDriver();
+
+            log.info("Opening RuWeb VPS page");
             driver.get(baseUrl);
 
+            log.info("Searching for nano card");
             driver.findElements(By.xpath("//p[contains(@class, 'tariff-card__title') and text()='" + planName + "']/../.."))
                     .stream()
                     .peek(element -> log.info("Found nano card: {}", element.getText()))
@@ -42,7 +47,9 @@ public class RuWebVpsWatcher implements WebSiteWatcher {
         } catch (Exception ex) {
             log.error("Error during RuWeb VPS Nano check", ex);
         } finally {
-            driver.quit();
+            if (driver != null) {
+                driver.quit();
+            }
         }
     }
 }

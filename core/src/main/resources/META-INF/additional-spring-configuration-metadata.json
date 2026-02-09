@@ -1,12 +1,22 @@
 {
   "groups": [
     {
+      "name": "app.common",
+      "description": "Application common properties",
+      "sourceType": "pro.ra_tech.websites_watcher.core.config.ApplicationProps"
+    },
+    {
       "name": "app.watchers.ru-web",
       "description": "Ru-web vps plan watcher",
       "sourceType": "pro.ra_tech.websites_watcher.core.config.RuWebWatcherProps"
     }
   ],
   "properties": [
+    {
+      "name": "app.common.chrome-driver-path",
+      "type": "java.lang.String",
+      "description": "Path to chromedriver executable"
+    },
     {
       "name": "app.watchers.ru-web.cron",
       "type": "java.lang.String",

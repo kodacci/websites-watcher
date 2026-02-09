@@ -14,5 +14,6 @@ spec:
     - name: telegram-bot
     - name: elasticsearch
     - name: ruweb
+    - name: chromedriver
   exportTo:
     - "."

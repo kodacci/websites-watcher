@@ -60,3 +60,5 @@ elasticsearch:
   index: websites-watcher-test-logs
 ruweb:
   host: ruweb.net
+chrome_selenium:
+  host: chrome-selenium.ra-tech.pro

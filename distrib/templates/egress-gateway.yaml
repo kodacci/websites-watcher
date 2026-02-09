@@ -19,3 +19,4 @@ spec:
         - {{ telegram.api.host }}
         - {{ elasticsearch.host }}
         - {{ ruweb.host }}
+        - {{ chrome_selenium.host }}

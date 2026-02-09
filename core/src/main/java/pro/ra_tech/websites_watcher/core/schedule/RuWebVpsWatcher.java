@@ -2,11 +2,8 @@ package pro.ra_tech.websites_watcher.core.schedule;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.scheduling.annotation.Scheduled;
 import pro.ra_tech.websites_watcher.core.schedule.api.WebSiteWatcher;
 import pro.ra_tech.websites_watcher.core.webdriver.api.WebdriverManager;

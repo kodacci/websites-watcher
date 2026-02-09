@@ -193,8 +193,8 @@ pipeline {
                         // ELASTICSEARCH
                         elasticsearchApply = generateExtHttp('elasticsearch', elasticsearchHost, 443, varsPath, true)
 
-                        // Ru-web
-                        ruWebApply = generateExtHttp('ru-web', ruWebHost, 443, varsPath, false)
+                        // Selenium chrome
+                        seleniumApply = generateExtHttp('chromedriver', 'chrome.selenium.ra-tech.pro', 443, varsPath, true)
                     }
 
                     withKubeConfig([credentialsId: 'jenkins-k8s-cert', serverUrl: KUBERNETES_API_URL, namespace: namespace]) {
@@ -225,7 +225,8 @@ pipeline {
                                 vaultApply +
                                 telegramApply +
                                 elasticsearchApply +
-                                ruWebApply
+                                ruWebApply +
+                                seleniumApply
 
                         // Deploying main app
                         sh 'kubectl apply -f distrib/deployment.yaml'

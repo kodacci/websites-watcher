@@ -6,6 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app.common")
 public record ApplicationProps(
         @NotEmpty
-        String chromeDriverPath
+        String chromeDriverPath,
+        @NotEmpty
+        String remoteChromeSeleniumUrl
 ) {
 }

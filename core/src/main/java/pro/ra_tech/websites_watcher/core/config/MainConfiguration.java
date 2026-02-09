@@ -18,7 +18,7 @@ import pro.ra_tech.websites_watcher.core.webdriver.impl.WebdriverManagerImpl;
 public class MainConfiguration {
     @Bean
     public WebdriverManager webdriverManager(ApplicationProps props) {
-        return new WebdriverManagerImpl(props.chromeDriverPath());
+        return new WebdriverManagerImpl(props.remoteChromeSeleniumUrl());
     }
 
     @Bean

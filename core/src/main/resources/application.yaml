@@ -29,8 +29,6 @@ management:
     port: 8081
 
 spring:
-#  main:
-#    web-application-type: none
   application:
     name: Websites Watcher
     version: @revision@

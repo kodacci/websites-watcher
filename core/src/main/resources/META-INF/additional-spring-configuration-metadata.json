@@ -18,6 +18,11 @@
       "description": "Path to chromedriver executable"
     },
     {
+      "name": "app.common.remote-chrome-selenium-url",
+      "type": "java.lang.String",
+      "description": "Remote Selenium URL for Chrome"
+    },
+    {
       "name": "app.watchers.ru-web.cron",
       "type": "java.lang.String",
       "description": "Cron schedule for ru-web watcher"

@@ -18,7 +18,7 @@ public class RuWebVpsWatcher implements WebSiteWatcher {
     private final WebdriverManager webdriverManager;
 
     @Override
-    @Scheduled(initialDelay = 3, fixedDelay = Integer.MAX_VALUE, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(cron = "${app.watchers.ru-web.cron}", zone = "Europe/Moscow")
     public void check() {
         WebDriver driver = null;
 

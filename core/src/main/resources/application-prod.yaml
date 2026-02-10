@@ -1,0 +1,13 @@
+logging:
+  level:
+    root: ${ROOT_LOG_LEVEL}
+
+app:
+  common:
+    chrome-driver-path: ${CHROME_DRIVER_PATH}
+    remote-chrome-selenium-url: ${REMOTE_CHROME_SELENIUM_URL}
+  watchers:
+    ru-web:
+      cron: ${RU_WEB_CRON}
+      url: ${RU_WEB_URL}
+      plan-name: ${RU_WEB_PLAN_NAME}

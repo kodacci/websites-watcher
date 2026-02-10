@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: websites-watcher-egress-gateway
+  namespace: {{ namespace }}
+  labels:
+    app.kubernetes.io/part-of: websites-watcher
+    app.kubernetes.io/component: core
+spec:
+  selector:
+    istio: {{ namespace }}-egressgateway
+  servers:
+    - port:
+        number: 80
+        name:  http
+        protocol: HTTP
+      hosts:
+        - {{ vault.host }}
+        - {{ telegram.api.host }}
+        - {{ elasticsearch.host }}
+        - {{ ruweb.host }}
+        - {{ chrome_selenium.host }}

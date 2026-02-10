@@ -1,0 +1,206 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: websites-watcher-core
+  namespace: {{ namespace }}
+  labels:
+    app.kubernetes.io/name: websites-watcher-core
+    app.kubernetes.io/component: core
+    app.kubernetes.io/part-of: websites-watcher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: websites-watcher-core
+      app.kubernetes.io/name: websites-watcher-core
+      app.kubernetes.io/component: core
+      app.kubernetes.io/part-of: websites-watcher
+      app.network.policy: restricted
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: websites-watcher-core
+        app.kubernetes.io/name: websites-watcher-core
+        app.kubernetes.io/component: core
+        app.kubernetes.io/part-of: websites-watcher
+        app.network.policy: restricted
+        sidecar.istio.io/proxyCPU: {{ core.istio.requests.cpu }}
+        sidecar.istio.io/proxyCPULimit: {{ core.istio.limits.cpu }}
+        sidecar.istio.io/proxyMemory: {{ core.istio.requests.memory }}
+        sidecar.istio.io/proxyMemoryLimit: {{ core.istio.limits.memory }}
+    spec:
+      volumes:
+        - name: logs-volume
+          emptyDir:
+            sizeLimit: 250Mi
+        - name: fluentbit-config
+          configMap:
+            name: core-fluentbit-config
+            items:
+              - key: fluent-bit.conf
+                path: fluent-bit.conf
+              - key: parsers.conf
+                path: parsers.conf
+        - name: fluentbit-db
+          emptyDir:
+            sizeLimit: 50Mi
+        - name: vault-agent-config
+          configMap:
+            name: core-vault-agent
+            items:
+              - key: vault-agent-config.hcl
+                path: vault-agent-config.hcl
+        - name: application-config
+          emptyDir:
+            sizeLimit: 10Mi
+        - name: vault-token
+          emptyDir:
+            sizeLimit: 1Mi
+        - name: vault-role
+          secret:
+            secretName: vault-role
+
+      containers:
+        - name: websites-watcher-core
+          image: {{ registry }}/{{ image_tag }}
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+          ports:
+              - containerPort: 8080
+                name: core-rest-api
+              - containerPort: 8081
+                name: core-actuator
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - mountPath: /home/websites-watcher/logs
+              name: logs-volume
+            - mountPath: /application
+              name: application-config
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8081
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            failureThreshold: 15
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8081
+            initialDelaySeconds: 120
+            periodSeconds: 5
+            failureThreshold: 5
+          resources:
+            requests:
+              cpu: {{ core.requests.cpu }}
+              memory: {{ core.requests.memory }}
+            limits:
+              cpu: {{ core.limits.cpu }}
+              memory: {{ core.limits.memory }}
+
+        - name: fluentbit
+          image: fluent/fluent-bit:3.1.4
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: {{ core.fluentbit.requests.cpu }}
+              memory: {{ core.fluentbit.requests.memory }}
+            limits:
+              cpu: {{ core.fluentbit.limits.cpu }}
+              memory: {{ core.fluentbit.limits.memory }}
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - mountPath: /logs
+              name: logs-volume
+            - mountPath: /fluent-bit/etc
+              name: fluentbit-config
+              readOnly: true
+            - mountPath: /fluent-bit/db
+              name: fluentbit-db
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 9090
+            initialDelaySeconds: 20
+            periodSeconds: 3
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 9090
+            initialDelaySeconds: 25
+            periodSeconds: 5
+            failureThreshold: 10
+
+        - name: vault-agent
+          image: hashicorp/vault:1.18
+          args:
+            - agent
+            - -config=/vault/agent/vault-agent-config.hcl
+            - -log-level=info
+          env:
+            - name: VAULT_ADDR
+              value: {{ vault.url }}
+          volumeMounts:
+            - mountPath: /vault/agent
+              name: vault-agent-config
+              readOnly: true
+            - mountPath: /vault/secrets/application
+              name: application-config
+            - mountPath: /vault/token
+              name: vault-token
+            - mountPath: /vault/role
+              name: vault-role
+              readOnly: true
+          resources:
+            requests:
+              cpu: {{ core.vault.requests.cpu }}
+              memory: {{ core.vault.requests.memory }}
+            limits:
+              cpu: {{ core.vault.limits.cpu }}
+              memory: {{ core.vault.limits.memory }}
+
+      imagePullSecrets:
+        - name: docker-registry-creds

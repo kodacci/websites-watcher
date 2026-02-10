@@ -1,0 +1,64 @@
+host: api.websites-watcher.test.cloud.ra-tech.pro
+namespace: websites-watcher-test
+registry: snapshots.docker-registry.ra-tech.pro
+
+egress:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 150m
+    memory: 128Mi
+  vault:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 64Mi
+
+core:
+  requests:
+    cpu: 100m
+    memory: 450Mi
+  limits:
+    cpu: 1
+    memory: 1Gi
+
+  istio:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
+
+  fluentbit:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 150m
+      memory: 256Mi
+
+  vault:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 64Mi
+vault:
+  url: http://vault.ra-tech.pro
+  tls_url: https://vault.ra-tech.pro
+  host: vault.ra-tech.pro
+telegram:
+  api:
+    host: api.telegram.org
+elasticsearch:
+  host: elasticsearch.ra-tech.pro
+  index: websites-watcher-test-logs
+ruweb:
+  host: ruweb.net
+chrome_selenium:
+  host: chrome.selenium.ra-tech.pro

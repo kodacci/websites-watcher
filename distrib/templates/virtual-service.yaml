@@ -1,0 +1,36 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: websites-watcher-core-rule
+  namespace: {{ namespace }}
+  labels:
+    app.kubernetes.io/part-of: websites-watcher
+    app.kubernetes.io/component: core
+spec:
+  exportTo:
+    - "."
+    - istio-system
+  hosts:
+    - {{ host }}
+  gateways:
+    - "{{ namespace }}/websites-watcher-ingress-gateway"
+    - mesh
+  http:
+    - name: core-actuator-route
+      match:
+        - uri:
+            prefix: "/actuator"
+      route:
+        - destination:
+            host: websites-watcher-core-service.{{ namespace }}.svc.cluster.local
+            port:
+              number: 8081
+    - name: core-api-route
+      match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: websites-watcher-core-service.{{ namespace }}.svc.cluster.local
+            port:
+              number: 8080

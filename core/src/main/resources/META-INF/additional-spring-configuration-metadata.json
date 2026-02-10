@@ -1,0 +1,41 @@
+{
+  "groups": [
+    {
+      "name": "app.common",
+      "description": "Application common properties",
+      "sourceType": "pro.ra_tech.websites_watcher.core.config.ApplicationProps"
+    },
+    {
+      "name": "app.watchers.ru-web",
+      "description": "Ru-web vps plan watcher",
+      "sourceType": "pro.ra_tech.websites_watcher.core.config.RuWebWatcherProps"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.common.chrome-driver-path",
+      "type": "java.lang.String",
+      "description": "Path to chromedriver executable"
+    },
+    {
+      "name": "app.common.remote-chrome-selenium-url",
+      "type": "java.lang.String",
+      "description": "Remote Selenium URL for Chrome"
+    },
+    {
+      "name": "app.watchers.ru-web.cron",
+      "type": "java.lang.String",
+      "description": "Cron schedule for ru-web watcher"
+    },
+    {
+      "name": "app.watchers.ru-web.url",
+      "type": "java.lang.String",
+      "description": "ru-web website URL"
+    },
+    {
+      "name": "app.watchers.ru-web.plan-name",
+      "type": "java.lang.String",
+      "description": "ru-web desired plan to wait for to be available"
+    }
+  ]
+}

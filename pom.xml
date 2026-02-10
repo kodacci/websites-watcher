@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.0-M1</version>
+    </parent>
+
+    <groupId>pro.ra-tech</groupId>
+    <artifactId>websites-watcher</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>websites-watcher</name>
+    <description>Websites watcher that execute actions on predicate rules like notifications, etc</description>
+
+    <modules>
+        <module>core</module>
+    </modules>
+
+    <properties>
+        <java.version>25</java.version>
+        <revision>1.0.0</revision>
+        <packaging>pom</packaging>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <spring.boot.version>4.1.0-M1</spring.boot.version>
+
+        <!--    MAVEN    -->
+        <maven.clean.plugin.version>3.5.0</maven.clean.plugin.version>
+        <maven.resources.plugin.version>3.4.0</maven.resources.plugin.version>
+        <maven.release.plugin.version>3.3.1</maven.release.plugin.version>
+        <maven.failsafe.plugin.version>3.5.4</maven.failsafe.plugin.version>
+        <maven.jar.plugin.version>3.5.0</maven.jar.plugin.version>
+        <maven.install.plugin.version>3.1.4</maven.install.plugin.version>
+        <maven.deploy.plugin.version>3.1.4</maven.deploy.plugin.version>
+        <maven.site.plugin.version>4.0.0-M16</maven.site.plugin.version>
+        <maven.project.info.reports.plugin.version>3.9.0</maven.project.info.reports.plugin.version>
+        <maven.surefire.plugin.version>3.5.4</maven.surefire.plugin.version>
+        <maven.compiler.plugin.version>3.15.0</maven.compiler.plugin.version>
+        <maven.wrapper.plugin.version>3.3.4</maven.wrapper.plugin.version>
+        <sonar.jacoco.plugin>1.4.0.4946</sonar.jacoco.plugin>
+
+        <!--    Third party    -->
+        <lombok.version>1.18.42</lombok.version>
+        <vavr.version>0.11.0</vavr.version>
+        <jspecify.version>1.0.0</jspecify.version>
+        <jackson.version>3.0.4</jackson.version>
+        <logstash.logback.version>9.0</logstash.logback.version>
+        <selenium.version>4.40.0</selenium.version>
+        <micrometer.version>1.17.0-M1</micrometer.version>
+
+        <!--    Project vars    -->
+        <skipTests>false</skipTests>
+        <coverage.agent> </coverage.agent>
+    </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>https://nexus.ra-tech.pro/repository/maven-snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus</id>
+            <url>https://nexus.ra-tech.pro/repository/maven-releases</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-bom</artifactId>
+                <version>${selenium-htmlunit.version}</version>
+                <scope>import</scope>
+                <type>bom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-bom</artifactId>
+                <version>${micrometer.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vavr</groupId>
+                <artifactId>vavr</artifactId>
+                <version>${vavr.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jspecify</groupId>
+                <artifactId>jspecify</artifactId>
+                <version>${jspecify.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.logback.version}</version>
+            </dependency>
+
+            <!--      Spring      -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven.clean.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven.resources.plugin.version}</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <propertiesEncoding>UTF-8</propertiesEncoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <release>${java.version}</release>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.plugin.version}</version>
+                    <configuration>
+                        <skipTests>${skipTests}</skipTests>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven.jar.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven.install.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven.deploy.plugin.version}</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven.site.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven.project.info.reports.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven.release.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.wrapper</groupId>
+                    <artifactId>maven-wrapper-parent</artifactId>
+                    <version>${maven.wrapper.plugin.version}</version>
+                </plugin>
+
+                <!--        Spring        -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skipTests>${skipTests}</skipTests>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>prepare-unit-test</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <propertyName>coverage.agent</propertyName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,43 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - health
+          - info
+          - metrics
+  endpoint:
+    health:
+      access: unrestricted
+      show-details: always
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include:
+            - livenessState
+        readiness:
+          include:
+            - readinessState
+    prometheus:
+      access: unrestricted
+      metrics:
+        export:
+          enabled: true
+  server:
+    port: 8081
+
+spring:
+  application:
+    name: Websites Watcher
+    version: @revision@
+  mvc:
+    problemdetails:
+      enabled: true
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      force: true

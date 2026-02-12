@@ -1,0 +1,13 @@
+package pro.ra_tech.websites_watcher.integration.rest.telegram.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jspecify.annotations.Nullable;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record TelegramChat (
+        @JsonProperty("id") long id,
+        @JsonProperty("type") TelegramChatType type,
+        @JsonProperty("title") @Nullable String title
+) {
+}

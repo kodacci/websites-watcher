@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import pro.ra_tech.websites_watcher.core.webdriver.api.WebdriverManager;
+import pro.ra_tech.websites_watcher.integration.api.TelegramBotService;
 
 import java.net.URI;
 import java.util.Map;
@@ -15,6 +16,12 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class WebdriverManagerImpl implements WebdriverManager {
+    public static final class WebdriverManagerError extends RuntimeException {
+        public WebdriverManagerError(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
     private final String remoteChromeSeleniumUrl;
 
     @Override
@@ -30,8 +37,8 @@ public class WebdriverManagerImpl implements WebdriverManager {
             log.info("Connecting to remote Chrome Selenium server: {}", remoteChromeSeleniumUrl);
 
             return new RemoteWebDriver(new URI(remoteChromeSeleniumUrl).toURL(), caps);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception ex) {
+            throw new WebdriverManagerError("Error connecting to remote Chrome driver", ex);
         }
     }
 }

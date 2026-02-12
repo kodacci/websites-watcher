@@ -19,6 +19,8 @@
 
     <modules>
         <module>core</module>
+        <module>integration</module>
+        <module>failure</module>
     </modules>
 
     <properties>
@@ -46,12 +48,16 @@
 
         <!--    Third party    -->
         <lombok.version>1.18.42</lombok.version>
-        <vavr.version>0.11.0</vavr.version>
+        <vavr.version>1.0.0</vavr.version>
         <jspecify.version>1.0.0</jspecify.version>
         <jackson.version>3.0.4</jackson.version>
         <logstash.logback.version>9.0</logstash.logback.version>
         <selenium.version>4.40.0</selenium.version>
         <micrometer.version>1.17.0-M1</micrometer.version>
+        <failsafe.version>3.3.2</failsafe.version>
+        <retrofit.version>3.0.0</retrofit.version>
+        <aspectj.version>1.19.25.1</aspectj.version>
+        <ok.http.version>5.3.2</ok.http.version>
 
         <!--    Project vars    -->
         <skipTests>false</skipTests>
@@ -128,6 +134,40 @@
                 <artifactId>spring-boot-starter-actuator</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+
+            <!--     OTHER       -->
+            <dependency>
+                <groupId>dev.failsafe</groupId>
+                <artifactId>failsafe</artifactId>
+                <version>${failsafe.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.failsafe</groupId>
+                <artifactId>failsafe-retrofit</artifactId>
+                <version>${failsafe.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>retrofit</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>converter-jackson</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp-bom</artifactId>
+                <version>${ok.http.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -135,6 +175,10 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
     </dependencies>
 

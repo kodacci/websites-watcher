@@ -10,6 +10,7 @@ public record RuWebWatcherProps(
         @NotEmpty
         String url,
         @NotEmpty
-        String planName
+        String planName,
+        boolean sendNegativeNotifications
 ) {
 }

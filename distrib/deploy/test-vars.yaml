@@ -24,6 +24,14 @@ core:
   limits:
     cpu: 1
     memory: 1Gi
+  readinessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 3
+    failureThreshold: 20
+  livenessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    failureThreshold: 3
 
   istio:
     requests:

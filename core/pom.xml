@@ -10,12 +10,22 @@
     </parent>
 
     <artifactId>websites-watcher-core</artifactId>
+    <version>${revision}</version>
+
+    <name>core</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
+        <!--   INTERNAL     -->
+        <dependency>
+            <groupId>pro.ra-tech</groupId>
+            <artifactId>websites-watcher-integration</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -29,11 +39,6 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
         </dependency>
 
         <dependency>

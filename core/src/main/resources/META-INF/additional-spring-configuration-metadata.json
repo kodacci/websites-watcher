@@ -9,9 +9,39 @@
       "name": "app.watchers.ru-web",
       "description": "Ru-web vps plan watcher",
       "sourceType": "pro.ra_tech.websites_watcher.core.config.RuWebWatcherProps"
+    },
+    {
+      "name": "app.telegram.api",
+      "description": "Application Telegram API configuration",
+      "sourceType": "pro.ra_tech.giga_ai_agent.integration.config.telegram.TelegramApiProps"
     }
   ],
   "properties": [
+    {
+      "name": "app.monitoring.app-name",
+      "type": "java.lang.String",
+      "description": "Application name monitoring common tag"
+    },
+    {
+      "name": "app.monitoring.app-version",
+      "type": "java.lang.String",
+      "description": "Application version monitoring common tag"
+    },
+    {
+      "name": "app.monitoring.pod-name",
+      "type": "java.lang.String",
+      "description": "Application pod name monitoring common tag"
+    },
+    {
+      "name": "app.monitoring.pod-namespace",
+      "type": "java.lang.String",
+      "description": "Application pod namespace monitoring common tag"
+    },
+    {
+      "name": "app.monitoring.node-name",
+      "type": "java.lang.String",
+      "description": "Application node name monitoring common tag"
+    },
     {
       "name": "app.common.chrome-driver-path",
       "type": "java.lang.String",
@@ -36,6 +66,31 @@
       "name": "app.watchers.ru-web.plan-name",
       "type": "java.lang.String",
       "description": "ru-web desired plan to wait for to be available"
+    },
+    {
+      "name": "app.telegram.api.rest-api-base-url",
+      "description": "Telegram bot API rest base URL",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.telegram.api.api-token",
+      "description": "Telegram bot API token",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "app.telegram.api.request-timeout-ms",
+      "description": "Telegram bot API request timeout in milliseconds",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "app.telegram.api.max-retries",
+      "description": "Telegram bot API request max retries on failure",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "app.telegram.api.notifications-chat",
+      "description": "Telegram bot API chat id for notifications",
+      "type": "java.lang.Long"
     }
   ]
 }

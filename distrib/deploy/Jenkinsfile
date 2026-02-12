@@ -134,6 +134,14 @@ pipeline {
         stage('Deploy to k8s') {
             steps {
                 script {
+                    def appVersion = withMaven(globalMavenSettingsConfig: 'maven-config-ra-tech') {
+                        PROJECT_VERSION = sh(
+                            encoding: 'UTF-8',
+                            returnStdout: true,
+                            script: './mvnw help:evaluate "-Dexpression=project.version" -B -Dsytle.color=never -q -DforceStdout'
+                        ).trim()
+                    }
+
                     def varsPath = JINJA2_VARS_FILE_PATH
                     def namespace = DEPLOY_NAMESPACE
                     def host = NAMESPACE_APP_HOST
@@ -146,7 +154,6 @@ pipeline {
                     def yandexApiHost = YANDEX_GPT_API_HOST
                     def hfsHost = HFS_HOST
                     def elasticsearchHost = ELASTICSEARCH_HOST
-                    def ruWebHost = "ruweb.net"
 
                     def vaultApply = ""
                     def gigaAuthApply = ""
@@ -173,7 +180,7 @@ pipeline {
                         sh "jinja2 distrib/templates/configmaps/egress-vault-agent.yaml $varsPath > distrib/egress-vault-agent.yaml"
 
                         // main app
-                        sh "jinja2 -D image_tag=$coreImageTag distrib/templates/deployment.yaml $varsPath > distrib/deployment.yaml"
+                        sh "jinja2 -D image_tag=$coreImageTag -D app_version=$appVersion distrib/templates/deployment.yaml $varsPath > distrib/deployment.yaml"
                         sh "jinja2 distrib/templates/service.yaml $varsPath > distrib/service.yaml"
                         sh "jinja2 distrib/templates/network-policy-restricted.yaml $varsPath > distrib/network-policy-restricted.yaml"
                         sh "jinja2 distrib/templates/ingress-gateway.yaml $varsPath > distrib/ingress-gateway.yaml"

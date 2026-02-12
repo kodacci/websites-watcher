@@ -1,0 +1,14 @@
+package pro.ra_tech.websites_watcher.integration.rest.telegram.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jspecify.annotations.Nullable;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record MessageEntity(
+        @JsonProperty("type") MessageEntityType type,
+        @JsonProperty("offset") int offset,
+        @JsonProperty("length") int length,
+        @JsonProperty("language") @Nullable String language
+) {
+}

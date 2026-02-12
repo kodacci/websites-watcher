@@ -7,6 +7,7 @@ metadata:
     app.kubernetes.io/name: websites-watcher-core
     app.kubernetes.io/component: core
     app.kubernetes.io/part-of: websites-watcher
+    app.kubernetes.io/version: {{ app_version }}
 spec:
   replicas: 1
   selector:
@@ -103,16 +104,16 @@ spec:
             httpGet:
               path: /actuator/health/readiness
               port: 8081
-            initialDelaySeconds: 60
-            periodSeconds: 5
-            failureThreshold: 15
+            initialDelaySeconds: {{ core.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ core.readinessProbe.periodSeconds }}
+            failureThreshold: {{ core.readinessProbe.failureThreshold }}
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: 8081
-            initialDelaySeconds: 120
-            periodSeconds: 5
-            failureThreshold: 5
+            initialDelaySeconds: {{ core.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ core.livenessProbe.periodSeconds }}
+            failureThreshold: {{ core.livenessProbe.failureThreshold }}
           resources:
             requests:
               cpu: {{ core.requests.cpu }}
@@ -163,16 +164,16 @@ spec:
             httpGet:
               path: /api/v1/health
               port: 9090
-            initialDelaySeconds: 20
+            initialDelaySeconds: 30
             periodSeconds: 3
             failureThreshold: 10
           livenessProbe:
             httpGet:
               path: /api/v1/health
               port: 9090
-            initialDelaySeconds: 25
-            periodSeconds: 5
-            failureThreshold: 10
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
 
         - name: vault-agent
           image: hashicorp/vault:1.18

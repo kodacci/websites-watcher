@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.scheduling.annotation.Scheduled;
 import pro.ra_tech.websites_watcher.core.schedule.api.WebSiteWatcher;
 import pro.ra_tech.websites_watcher.core.webdriver.api.WebdriverManager;
+import pro.ra_tech.websites_watcher.integration.api.TelegramBotService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +17,8 @@ public class RuWebVpsWatcher implements WebSiteWatcher {
     private final String baseUrl;
     private final String planName;
     private final WebdriverManager webdriverManager;
+    private final TelegramBotService telegramBotService;
+    private final long chatId;
 
     @Override
     @Scheduled(cron = "${app.watchers.ru-web.cron}", zone = "Europe/Moscow")
@@ -38,8 +41,16 @@ public class RuWebVpsWatcher implements WebSiteWatcher {
                     .map(nanoCard -> nanoCard.findElements(By.xpath("a[contains(@class, 'price-link-login') and text()='Заказать']")))
                     .flatMap(buttons -> buttons.stream().findAny())
                     .ifPresentOrElse(
-                            button -> log.info("Found active order button"),
-                            () -> log.info("No active order button found")
+                            button -> {
+                                log.info("Found active order button");
+                                telegramBotService.sendMessage("Ru Web " + planName + " is now available at " + baseUrl + " \uD83C\uDF89")
+                                        .peekLeft(failure -> log.error("Failed to send message to chat {}", chatId, failure.getCause()) );
+                            },
+                            () -> {
+                                log.info("No active order button found");
+                                telegramBotService.sendMessage("Ru Web " + planName + " is not available")
+                                        .peekLeft(failure -> log.error("Failed to send message to chat {}", chatId, failure.getCause()));
+                            }
                     );
         } catch (Exception ex) {
             log.error("Error during RuWeb VPS Nano check", ex);

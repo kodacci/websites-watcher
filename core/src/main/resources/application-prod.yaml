@@ -11,6 +11,7 @@ app:
       cron: ${RU_WEB_CRON}
       url: ${RU_WEB_URL}
       plan-name: ${RU_WEB_PLAN_NAME}
+      send-negative-notifications: ${RU_WEB_SEND_NEGATIVE_NOTIFICATIONS:false}
   telegram:
     api:
       rest-api-base-url: ${TELEGRAM_BOT_REST_BASE_URL}

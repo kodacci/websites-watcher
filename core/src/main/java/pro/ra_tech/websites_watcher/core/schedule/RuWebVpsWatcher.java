@@ -18,7 +18,7 @@ public class RuWebVpsWatcher implements WebSiteWatcher {
     private final String planName;
     private final WebdriverManager webdriverManager;
     private final TelegramBotService telegramBotService;
-    private final long chatId;
+    private final boolean sendNegativeNotifications;
 
     @Override
     @Scheduled(cron = "${app.watchers.ru-web.cron}", zone = "Europe/Moscow")
@@ -44,16 +44,19 @@ public class RuWebVpsWatcher implements WebSiteWatcher {
                             button -> {
                                 log.info("Found active order button");
                                 telegramBotService.sendMessage("Ru Web " + planName + " is now available at " + baseUrl + " \uD83C\uDF89")
-                                        .peekLeft(failure -> log.error("Failed to send message to chat {}", chatId, failure.getCause()) );
+                                        .peekLeft(failure -> log.error("Failed to send message to telegram", failure.getCause()) );
                             },
                             () -> {
                                 log.info("No active order button found");
-                                telegramBotService.sendMessage("Ru Web " + planName + " is not available")
-                                        .peekLeft(failure -> log.error("Failed to send message to chat {}", chatId, failure.getCause()));
+                                if (sendNegativeNotifications) {
+                                    telegramBotService.sendMessage("Ru Web " + planName + " is not available")
+                                            .peekLeft(failure -> log.error("Failed to send message to telegram", failure.getCause()));
+                                }
                             }
                     );
         } catch (Exception ex) {
             log.error("Error during RuWeb VPS Nano check", ex);
+            telegramBotService.sendMessage("Something went wrong " + ex.getMessage());
         } finally {
             if (driver != null) {
                 driver.quit();

@@ -14,7 +14,6 @@ import pro.ra_tech.websites_watcher.core.webdriver.api.WebdriverManager;
 import pro.ra_tech.websites_watcher.core.webdriver.impl.WebdriverManagerImpl;
 import pro.ra_tech.websites_watcher.integration.api.TelegramBotService;
 import pro.ra_tech.websites_watcher.integration.config.IntegrationConfiguration;
-import pro.ra_tech.websites_watcher.integration.config.TelegramProps;
 
 @Slf4j
 @Configuration
@@ -38,15 +37,14 @@ public class MainConfiguration {
     public RuWebVpsWatcher ruWebVpsWatcher(
             RuWebWatcherProps props,
             WebdriverManager webdriverManager,
-            TelegramBotService telegramBotService,
-            TelegramProps telegramProps
+            TelegramBotService telegramBotService
     ) {
         return new RuWebVpsWatcher(
                 props.url(),
                 props.planName(),
                 webdriverManager,
                 telegramBotService,
-                telegramProps.notificationsChatId()
+                props.sendNegativeNotifications()
         );
     }
 

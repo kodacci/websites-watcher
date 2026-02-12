@@ -68,6 +68,12 @@
       "description": "ru-web desired plan to wait for to be available"
     },
     {
+      "name": "app.watcher.ru-web.send-negative-notifications",
+      "type": "java.lang.Boolean",
+      "description": "Send negative notifications (plan not available)"
+    },
+
+    {
       "name": "app.telegram.api.rest-api-base-url",
       "description": "Telegram bot API rest base URL",
       "type": "java.lang.String"

@@ -58,7 +58,7 @@ def escapeMd(input, escapeChars) {
 }
 
 pipeline {
-    agent { label 'linux' }
+    agent { label 'k8s' }
 
     parameters {
         string(name: 'core_app_image', description: 'Core image tag to use in deploy')

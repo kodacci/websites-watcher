@@ -40,7 +40,7 @@ def escapeMd(input, escapeChars) {
 }
 
 pipeline {
-    agent { label 'k8s' }
+    agent { label 'linux' }
 
     options {
         ansiColor('xterm')

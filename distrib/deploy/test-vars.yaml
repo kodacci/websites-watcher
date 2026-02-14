@@ -11,7 +11,7 @@ egress:
     memory: 128Mi
   vault:
     requests:
-      cpu: 50m
+      cpu: 25m
       memory: 64Mi
     limits:
       cpu: 200m
